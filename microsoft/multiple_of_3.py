@@ -1,5 +1,7 @@
 """
-Given a binary number, Find, if given binary number is a multiple of 3. The given number can be big upto 2^10000. It is recommended to finish the task using one traversal of input binary string.
+Given a binary number, Find, if given binary number is a multiple of 3. 
+The given number can be big upto 2^10000. It is recommended to finish the task using one
+ traversal of input binary string.
 
 Example 1:
 
@@ -7,6 +9,9 @@ Input: S = "011"
 Output: 1
 Explanation: "011" decimal equivalent
 is 3, which is divisible by 3.
+
+**need to find a good way**
+
 """
 
 s = "100100000111111101010010010011010101110110"

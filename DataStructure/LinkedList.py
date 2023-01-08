@@ -75,6 +75,40 @@ class linkedlist:
             new_node.ref = n.ref
             n.ref = new_node
 
+    def delete_begin(self):
+        if self.head is None:
+            print("linked list is empty nothing to delete!")
+        else:
+            self.head = self.head.ref
+    
+    def delete_end(self):
+        if self.head is None:
+            print("linked list is empty nothing to delete!")
+        elif self.head.ref is None:
+            self.head = None
+        else:
+            n = self.head
+            while n.ref.ref is not None:
+                n = n.ref
+            
+            n.ref = None
+    
+    def delete_by_val(self, x):
+        if self.head is None:
+            print("linked list is empty nothing to delete!!")
+        elif self.head.data == x:
+            self.head = self.head.ref
+        else:
+            n = self.head
+            while n.ref is not None:
+                if n.ref.data == x:
+                    break
+                n = n.ref
+            if n.ref is None:
+                print("element",x,"not found!")
+                return
+            n.ref = n.ref.ref
+
 obj = linkedlist()
 
 obj.add_begin(10)
@@ -91,5 +125,17 @@ print()
 obj.traversal()
 obj.add_before(23,100)
 obj.add_before(39,10)
+print()
+obj.traversal()
+obj.delete_begin()
+print()
+obj.traversal()
+obj.delete_end()
+print()
+obj.traversal()
+obj.delete_end()
+print()
+obj.traversal()
+obj.delete_by_val(20)
 print()
 obj.traversal()

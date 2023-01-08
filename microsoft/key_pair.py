@@ -1,6 +1,6 @@
 """
-Given an array Arr of N positive integers and another number X. Determine whether or not there exist two elements in Arr whose sum is exactly X.
-
+Given an array Arr of N positive integers and another number X.
+Determine whether or not there exist two elements in Arr whose sum is exactly X.
 Example 1:
 
 Input:
@@ -13,28 +13,41 @@ Explanation: Arr[3] + Arr[4] = 6 + 10 = 16
 
 
 def funt(l, sum1):
-    d = {}
+    """d = {}
     flag = 0
     for i in l:
         temp = sum1 - i
-        d[temp] = i
+        d[i] = temp
+    
+    print(d)"""
 
-    for i in l:
-        try:
-            # print(d[i])
-            d[i]
-            flag = 1
-            break
-        except Exception as e:
-            pass
-            # print("handled the excpetion")
+    hashmap = {}
+    for i in range(0, len(l)):
+        temp = sum1-l[i]
+        print(temp, hashmap)
+        if (temp in hashmap):
+            print('Yes')
+            return
+        hashmap[l[i]] = i
+    
+    print(hashmap)
+    print("No")
 
-    if flag == 1:
-        print("number is ", i, d[i])
-    else:
-        print("no pair found..")
+"""
+working, using set time complexity > O(n)
+  
+hashset = set()
+for i in range(0, len(l)):
+    temp = sum1 - l[i]
+    if temp in hashset:
+        print('Yes')
+        return
+    hashset.add(l[i])
+print("No")
+
+"""
 
 
-l = [1, 4, 45, 6, 10, 8]
-givensum = 499
+l = [1, 4, 45, 6, 8, 8]
+givensum = 16
 funt(l, givensum)
