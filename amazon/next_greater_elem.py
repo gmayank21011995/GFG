@@ -1,3 +1,8 @@
+"""
+Input: [4, 2, 5, 7, 1, 8, 9, 3]
+Output: {4: 5, 2: 5, 5: 7, 7: 8, 1: 8, 8: 9, 9: -1, 3: -1}
+
+"""
 def next_greater(arr):
   stack = []
   result = {}
