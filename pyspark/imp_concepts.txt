@@ -1,0 +1,51 @@
+# Bucketing
+what it is:
+Bucketing distributes data into a fixed number of files (buckets) based on the hash of one or more columns,
+which helps optimize joins and aggregations by reducing shuffle.Unlike partitioning, bucketing does not create directories per value;
+instead, it creates a fixed number of files, regardless of column cardinality.
+
+What it does:
+Distributes data into fixed number of buckets (files) based on hash of a column.
+Data is sorted within each bucket on bucket column(s).
+Does NOT create folder structure like partitioning.
+
+When to use:
+For frequent joins on the same column (e.g., user_id) → Avoids full shuffle.
+Good for columns with high cardinality where partitioning would create too many partitions.
+
+Pros:
+Reduces shuffle during joins (if both tables have same number of buckets and same bucketing column).
+Improves query performance for joins and aggregations.
+
+Cons:
+Requires you to specify number of buckets upfront.
+Only works well when bucketing is consistent across tables.
+
+Ex:
+df.write.bucketBy(8, "user_id").sortBy("user_id").saveAsTable("bucketed_table")
+
+Why This Helps:
+Normal join → Spark shuffles both tables based on user_id → costly for large datasets.
+Bucketed join → No shuffle (data already distributed into buckets).
+
+s3 storage example:
+df.write.bucketBy(4, "user_id").sortBy("user_id").saveAsTable("bucketed_table")
+
+s3://my-bucket/warehouse/bucketed_table/
+    _SUCCESS
+    part-00000-<id>.parquet
+    part-00001-<id>.parquet
+    part-00002-<id>.parquet
+    part-00003-<id>.parquet
+
+There are exactly 4 files (because of 4 buckets).
+
+when partitionedBy user_id:
+s3://my-bucket/warehouse/partitioned_table/
+    user_id=1/
+        part-00000.parquet
+    user_id=2/
+        part-00000.parquet
+    user_id=3/
+        part-00000.parquet
+    ...

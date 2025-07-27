@@ -14,7 +14,7 @@ with tmp as(
   select t.*, count(*) over (partition by name, dept)as r from emp t)
   select * from tmp where r > 1
   
--- cumulative sum
+-- cumulative sum dept wise
 with tmp as(
 select t.*, sum(salary) over (partition by dept order by id asc) as cum_sum from emp t)
 select * from tmp
@@ -95,3 +95,24 @@ from
     EventDiffs
 ORDER BY
     id, event_time;
+
+-- find the last person to enter a bus such that the total accumulated weight does not exceed 1000 kg, and people enter in a defined sequence, you can use a running total (cumulative sum) in SQL.
+WITH running_weight AS (
+    SELECT 
+        person_id,
+        name,
+        weight,
+        seq,
+        SUM(weight) OVER (ORDER BY seq) AS total_weight
+    FROM passengers
+)
+SELECT 
+    person_id,
+    name,
+    weight,
+    seq,
+    total_weight
+FROM running_weight
+WHERE total_weight <= 1000
+ORDER BY total_weight DESC
+LIMIT 1;
